@@ -1,20 +1,10 @@
 <x-guest-layout>
-  
-    <form method="POST" action="{{ route('register') }}" class= "  bg-amber-100" >
+
+    <form method="POST" action="{{ route('register') }}" class= "  " >
         @csrf
-    <div class='grid grid-cols-3 gap-2'>
-        <div class=' bg-red-500 rounded-lg shadow-xl min-h-[50px]' > cas  </div>
-        <div class='bg-orange-500 rounded-lg shadow-xl min-h-[50px]' >dqw</div>
-        <div class=' bg-yellow-500 rounded-lg shadow-xl min-h-[50px]' >qdwqw</div>
-        <div class=' bg-green-500 rounded-lg shadow-xl min-h-[50px]' >dwq</div>
-        <div class=' bg-teal-500 rounded-lg shadow-xl min-h-[50px]' >dqwd</div>
-        <div class=' bg-blue-500 rounded-lg shadow-xl min-h-[50px]' >wdqw</div>
-        <div class=' bg-purple-500 rounded-lg shadow-xl min-h-[50px]' >qwdqw</div>
-        <div class='bg-pink-500 rounded-lg shadow-xl min-h-[50px]' >dwq</div>
-        <div class='bg-slate-500 rounded-lg shadow-xl min-h-[50px]' >dwqds</div>
-    </div>
-<div class="grid grid-cols-3">
-        <div class="mt-4">
+   
+<div class="grid grid-grid-rows-12 gap-2" >
+        <div class="">
             <x-input-label for="id" :value="__('รหัสผู้รับผิดชอบ')" />
             <x-text-input id="id" class="block mt-1 w-full" type="text" name="id" :value="old('id')" />
             <x-input-error :messages="$errors->get('id')" class="mt-2" />
