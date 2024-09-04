@@ -35,7 +35,7 @@ class location extends Seeder
         foreach ($types as $type) {
 
             DB::table('location')->insert([
-                'name_location' => $type,
+                'location_site_name' => $type,
             ]);
         }
     }

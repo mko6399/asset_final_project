@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegisteredUserController extends Controller
 {
@@ -30,29 +31,38 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
+
+
         $validated =  $request->validate([
             'id' => ['nullable', 'string', 'max:20'],
-            'Prefix' => ['required', 'string', 'max:255'],
+            'prefix' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['string', 'max:255'],
             'position' => ['string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+
+
         ]);
 
+
         if (empty($validated['id'])) {
-            // สร้างค่า responsible_person_id แบบสุ่มที่เป็นเลขใหญ่
+
             $validated['id'] = mt_rand(100000000, 999999999);
         }
         $user = User::create([
             'id' => $validated['id'],
-            'Prefix' => $validated['Prefix'],
+            'prefix' => $validated['prefix'],
             'name' => $validated['name'],
             'last_name' => $validated['last_name'],
             'position' => $validated['position'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'role' => 'officer',
         ]);
+
+        Alert::success('สมัครสำเร็จ!!!', 'ระบบจะล็อกให้อัตโนมัติหลังสมัคร');
         event(new Registered($user));
 
         Auth::login($user);

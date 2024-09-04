@@ -20,12 +20,13 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $fillable = [
         'id',
-        'Prefix',
+        'prefix',
         'name',
         'last_name',
         'position',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -47,4 +48,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function agency()
+    {
+        return $this->belongsTo(Agency::class);
+    }
 }
