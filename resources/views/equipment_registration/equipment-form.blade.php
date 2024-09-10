@@ -24,7 +24,8 @@
             <!-- Asset Number -->
             <div class="flex flex-col">
                 <label for="asset_number" class="block text-gray-700 font-medium mb-2">หมายเลขครุภัณฑ์:</label>
-                <input id="asset_number" type="number" name="asset_number"
+                <input id="asset_number" type="text" name="asset_number" pattern="\d{10}-\d{7}-\d{4}-\d{7}"
+                    title="กรุณากรอกหมายเลขครุภัณฑ์ตามรูปแบบ 6706040040-0031040-0031-0010002"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
 
@@ -59,8 +60,10 @@
                 <select id="status" name="status" x-model="status"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <option value="1">ใช้งานได้</option>
-                    <option value="2">ใช้งานไม่ได้</option>
-                    <option value="3">ชำรุด</option>
+                    <option value="2">ชำรุด</option>
+                    <option value="3">เสื่อมคุณภาพ</option>
+                    <option value="4">ไม่ใช้</option>
+                    <option value="5">สูญหาย</option>
                 </select>
             </div>
 
@@ -96,9 +99,9 @@
             </div>
 
             <!-- Additional -->
-            <div class="flex flex-col" x-show="status === '3'">
+            <div class="flex flex-col" x-show="status === '2'|| status === '3'">
                 <label for="additional" class="block text-gray-700 font-medium mb-2">หมายเหตุ:</label>
-                <textarea id="additional" name="additional" x-bind:disabled="status !== '3'"
+                <textarea id="additional" name="additional" x-bind:disabled="status !== '2' && status !== '3'"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
             </div>
 

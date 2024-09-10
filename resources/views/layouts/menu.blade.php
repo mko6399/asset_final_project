@@ -17,9 +17,30 @@
         <div x-show="open" @click.away="open = false"
             class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-orange-100 ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div class="py-1">
+                @if (Auth::user()->role !== 'officer')
+                    <a href="{{ route('usersimport') }}"
+                        class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
+                        <span class="mr-2">•</span> นำเข้าข้อมูลครุภัณฑ์
+                    </a>
+                    <a href='{{ route('UserManagement.index') }}'
+                        class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
+                        <span class="mr-2">•</span> จัดการข้อมูลผู้รับผิดชอบครุภัณฑ์
+                    </a>
+                @endif
+
+
+                <a href='{{ route('equipment.homepage') }}'
+                    class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
+                    <span class="mr-2">•</span> จัดการข้อมูลครุภัณฑ์
+                </a>
+                <a href='{{ route('reportpdf.index') }}'
+                    class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
+                    <span class="mr-2">•</span> สร้างรายงาน PDF
+                </a>
+
                 <x-dropdown-link :href="route('profile.edit')"
                     class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
-                    {{ __('•การตั้งค่าบัญชี') }}
+                    {{ __(' •      การตั้งค่าบัญชี') }}
                 </x-dropdown-link>
 
                 <form method="POST" action="{{ route('logout') }}">
@@ -27,25 +48,11 @@
                     <x-dropdown-link :href="route('logout')"
                         class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200"
                         onclick="event.preventDefault(); this.closest('form').submit();">
-                        {{ __('•ออกจากระบบ') }}
+                        {{ __(' •    ออกจากระบบ') }}
                     </x-dropdown-link>
                 </form>
 
-                <a href="{{ route('usersimport') }}"
-                    class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
-                    <span class="mr-2">•</span> นำเข้าข้อมูลครุภัณฑ์
-                </a>
-                <a href='{{ route('UserManagement.index') }}'
-                    class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
-                    <span class="mr-2">•</span> จัดการข้อมูลผู้รับผิดชอบครุภัณฑ์
-                </a>
-                <a href='{{ route('equipment.homepage') }}'
-                    class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
-                    <span class="mr-2">•</span> จัดการข้อมูลครุภัณฑ์
-                </a>
-                <a href="#" class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
-                    <span class="mr-2">•</span> สร้างรายงาน PDF
-                </a>
+
             </div>
         </div>
     </div>

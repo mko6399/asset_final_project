@@ -1,12 +1,12 @@
 <x-guest-layout>
-
-    <form method="POST" action="{{ route('register') }}" class= "">
+    <h2 class="text-2xl font-bold mb-6 text-blue-600">เพิ่มผู้รับผิดชอบครุภัณฑ์</h2>
+    <form method="POST" action="{{ route('UserManagement.store') }}" class= "">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
 
             <div class="flex flex-col">
-                <x-input-label for="prefix" :value="__('')" />
+                <x-input-label for="prefix" :value="__('   ')" />
                 <x-select class="bg-orange-300" id="prefix" name="prefix" :options="[
                     '' => 'คำนำหน้าชื่อ',
                     'นาย' => 'นาย',
@@ -91,7 +91,10 @@
             <x-primary-button class="ms-4">
                 {{ __('บันทึกเพิ่มผู้รับผิดชอบ') }}
             </x-primary-button>
+            <button type="button" onclick="window.location.href='{{ route('UserManagement.index') }}'"
+                class="w-full md:w-1/2 bg-[#e33a31db] text-white px-4 py-2 font-bold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600">ยกเลิก</button>
         </div>
+
     </form>
 
 

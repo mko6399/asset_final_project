@@ -1,5 +1,56 @@
 <x-guest-layout>
-    <div class="relative overflow-x-auto">
+    <div class=" overflow-x-auto rounded-lg">
+
+        <div class="grid grid-cols-6 ">
+            <div class="bg-orange-400 gap-5 rounded-lg text-center">
+                @if (Auth::user()->role !== 'officer')
+                    <h1 class="text-lg">จัดการข้อมูลครุภัณฑ์</h1>
+                @else
+                    <h1 class="text-lg">ครุภัณฑ์ที่รับผิดชอบ</h1>
+                @endif
+
+            </div>
+            <div class="col-span-4">
+                <form method="GET" action="{{ route('equipment.search') }}" class="mb-4">
+                    <div class="flex items-center">
+                        <input type="text" name="search" placeholder="ค้นหาครุภัณฑ์..."
+                            value="{{ request()->query('search') }}" class="px-4 py-2 border rounded-lg w-full">
+                        <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg"> <svg
+                                xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 4a7 7 0 11-7 7 7 7 0 017-7zm0 2a5 5 0 100 10 5 5 0 000-10zm9 9l-3-3" />
+                            </svg> ค้นหา</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="   bg-orange-400 rounded-lg text-center">
+                <div class=" items-center justify-center">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" fill="#0033A0">
+                        <path
+                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z" />
+                    </svg>
+
+
+
+                    @if (Auth::user()->role !== 'officer')
+                        <h1 class="text-lg">ผู้ดูแลระบบ</h1>
+                    @else
+                        <h1 class="text-lg">ผู้รับผิดชอบ</h1>
+                    @endif
+                </div>
+                <div class="bg-orange-300 my-4  w-full">
+                    {{ Auth::user()->prefix }}
+                    {{ Auth::user()->name }}
+                    {{ Auth::user()->last_name }}
+                </div>
+
+
+            </div>
+        </div>
+
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -66,5 +117,26 @@
                 @endforeach
             </tbody>
         </table>
+        @if (Auth::user()->role !== 'officer')
+            <div class="flex justify-end  space-x-10">
+                <div>
+
+                    <button type="button" onclick="window.location.href='{{ route('equipment.index') }}'">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                            class="rounded-full w-20 h-20 bg-orange-400 text-white">
+                            <path fill-rule="evenodd"
+                                d="M12 5a1 1 0 0 1 1 1v4h4a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V6a1 1 0 0 1 1-1z"
+                                clip-rule="evenodd" />
+                        </svg></button>
+                </div>
+                <div class="bg-orange-400 rounded-lg text-2xl w-auto h-1/2">
+
+                    <button type="button" onclick="window.location.href='{{ route('dashboardequipment.index') }}'">
+
+                        กลับหน้าหลัก
+                    </button>
+                </div>
+        @endif
+    </div>
     </div>
 </x-guest-layout>

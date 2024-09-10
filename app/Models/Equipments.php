@@ -34,7 +34,7 @@ class Equipments extends Model
         'serial_number',
         'location_site_code',
         'type_of_equipment_id',
-        'location_use_code'
+        'location_use_name'
     ];
 
     public function imagesequipments()
@@ -49,10 +49,7 @@ class Equipments extends Model
     {
         return $this->belongsTo(Location::class, 'location_site_code', 'location_site_code');
     }
-    public function location_use()
-    {
-        return $this->belongsTo(Location_use::class, 'location_use_code', 'location_use_code');
-    }
+
     public function typeOfEquipment()
     {
         return $this->belongsTo(Type_of_equipment::class, 'type_of_equipment_id', 'type_of_equipment_id');

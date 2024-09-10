@@ -23,11 +23,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('location_use', function (Blueprint $table) {
-            $table->id('location_use_code');
-            $table->string('location_use_name')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('location_use', function (Blueprint $table) {
+        //     $table->id('location_use_code');
+        //     $table->string('location_use_name')->nullable();
+        //     $table->timestamps();
+        // });
 
         Schema::create('equipments', function (Blueprint $table) {
             $table->id('equipments_code')->nullable();
@@ -47,21 +47,17 @@ return new class extends Migration
             $table->string('reference_number')->nullable();
             $table->string('budget')->nullable();
             $table->string('serial_number')->nullable();
-            $table->unsignedBigInteger('location_site_code')->nullable();
+            $table->unsignedBigInteger('location_site_code');
             $table->foreign('location_site_code')
                 ->references('location_site_code')
                 ->on('location')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('type_of_equipment_id')->nullable(); // Foreign key column
+            $table->unsignedBigInteger('type_of_equipment_id'); // Foreign key column
             $table->foreign('type_of_equipment_id')
                 ->references('type_of_equipment_id')
                 ->on('type_of_equipment')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('location_use_code')->nullable();
-            $table->foreign('location_use_code')
-                ->references('location_use_code')
-                ->on('location_use')
-                ->onDelete('cascade');
+            $table->string('location_use_name')->nullable();
             $table->timestamps();
         });
         Schema::create('responsible', function (Blueprint $table) {
@@ -88,7 +84,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('location_use');
+
         Schema::dropIfExists('location');
         Schema::dropIfExists('responsible');
         Schema::dropIfExists('equipments');

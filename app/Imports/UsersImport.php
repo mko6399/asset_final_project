@@ -61,6 +61,9 @@ class UsersImport implements ToModel, WithHeadingRow
             'reference_number' => $row['reference_number'] ?? null,
             'budget' => $row['budget'] ?? null,
             'serial_number' => $row['serial_number'] ?? null,
+            'location_use_name' => $row['location_use_name'] ?? null,
+            'location_site_code' => 1,
+            'type_of_equipment_id' => 1,
         ]);
 
 
@@ -71,20 +74,9 @@ class UsersImport implements ToModel, WithHeadingRow
         ]);
 
 
-        $location = Location::create([
-
-            'location_site_name' => $row['location_site_name'] ?? null,
-        ]);
 
 
-        Location_use::create([
-            'location_use_name' => $row['location_use_name'] ?? null,
-            'location_site_code' => $location->location_site_code,
-        ]);
-        Type_of_equipment::create([
-            'name_type_of_equipment' => $row['name_type_of_equipment'] ?? null,
-            'equipments_code' => $equipment->equipments_code,
-        ]);
+
         Agency::create([
             'name_agency' => $row['name_agency'],
 

@@ -10,7 +10,8 @@
         <div class="flex flex-col items-center">
             <template x-if="imagePreview">
                 <div class="mb-4 flex justify-center">
-                    <img :src="imagePreview" alt="Image Preview" class="w-full max-w-xs border rounded-lg">
+                    <img :src="`/uploads/equipments/{{ $imagePath }}`" alt="Image Preview"
+                        class="w-full max-w-xs border rounded-lg">
                 </div>
             </template>
             <label for="image_path" class="block text-gray-700 font-medium mb-2">อัปโหลดภาพ:</label>
@@ -23,7 +24,8 @@
             <!-- Asset Number -->
             <div class="flex flex-col">
                 <label for="asset_number" class="block text-gray-700 font-medium mb-2">หมายเลขครุภัณฑ์:</label>
-                <input id="asset_number" type="number" name="asset_number" value="{{ $dataforedit->asset_number }}"
+                <input id="asset_number" type="text" name="asset_number" value="{{ $dataforedit->asset_number }}"
+                    pattern="\d{10}-\d{7}-\d{4}-\d{7}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
 
@@ -87,7 +89,7 @@
 
 
             <!-- Location Use -->
-            <div class="flex flex-col" x-show="location_site_code !== '0'">
+            <div class="flex flex-col" ">
                 <label for="location_use_name" class="block text-gray-700 font-medium mb-2">สถานที่ใช้งานใน:</label>
                 <textarea id="location_use_name" name="location_use_name"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ $dataforedit->location_use->location_use_name ?? '' }}</textarea>
@@ -147,6 +149,7 @@
             </div>
 
             <div class="flex flex-col">
+                                                  @if (Auth::user()->role !== 'officer')
                 <label for="user_id" class="block text-gray-700 font-medium mb-2">มอบหมายผู้รับผิด:</label>
                 <select id="user_id" name="user_id" x-model="user_id"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -154,11 +157,15 @@
                     @foreach ($data_use as $value)
                         <option value="{{ $value->id }}" {{ $value->id == $dataforedit->id ? 'selected' : '' }}>
                             {{ $value->prefix . $value->name . ' ' . $value->last_name }}
-
                         </option>
                     @endforeach
                 </select>
+            @else
+                <!-- สำหรับผู้ใช้ที่เป็น 'officer' หรือแอดมิน ให้ซ่อนฟิลด์นี้ -->
+                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                @endif
             </div>
+
         </div>
 
         <!-- Submit Button -->
@@ -167,20 +174,47 @@
             บันทึกการเปลี่ยนแปลง
         </button>
     </form>
-    {{-- <div class="flex justify-end">
+    <div class="flex justify-end">
 
-        <form id="delete-form" action="{{ route('equipment.delete', $dataforedit->equipments_code) }}"
+        {{-- <form id="delete-form" action="{{ route('equipment.delete', $dataforedit->equipments_code) }}"
             method="post">
             @csrf
             @method('DELETE')
 
             <button type="submit"
                 class="w-auto bg-[#e33a31db] text-white px-4 py-2 font-bold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
-                data-confirm-delete="true">
+                data-confirm-delete="true" onclick="return confirm('คุณต้องการลบใช่ไหม ?')">
                 ลบ
             </button>
-        </form>
+        </form> --}}
 
-    </div> --}}
+        <a href="{{ route('equipment.delete', ['equipments_code' => $dataforedit->equipments_code]) }}"
+            data-confirm-delete="true"
+            class="w-auto bg-[#e33a31db] text-white px-4 py-2 font-bold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600">
+            ลบครุภัณฑ์
+        </a>
 
+    </div>
+    <script>
+        document.querySelectorAll('a[data-confirm-delete]').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                var url = this.href;
+
+                Swal.fire({
+                    title: 'คุณกำลังจะลบครุภัณฑ์!',
+                    text: "คุณต้องการลบตัวครุภัณฑ์ตัวนนี้ใช่ไหม ?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    </script>
 </x-guest-layout>

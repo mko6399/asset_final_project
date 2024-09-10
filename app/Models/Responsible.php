@@ -17,6 +17,7 @@ class Responsible extends Model
      * @var array<int, string>
      */
     protected $table = 'responsible';
+    protected $primaryKey = 'responsible_code';
     protected $fillable = [
         'date_of_use',
         'action',

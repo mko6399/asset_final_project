@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="//unpkg.com/alpinejs" defer></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -21,12 +21,12 @@
 
 <body class="font-sans text-gray-900 antialiased max-h-screen">
     <x-navbar-layout />
-    <div class="m-40 flex-grow flex flex-col lg:justify-center items-center">
+    <div class=" m-40 flex-grow flex flex-col lg:justify-center items-center">
 
         <div
-            class="lg:h-auto lg:w-auto m-8 flex flex-col lg:justify-center items-center pt-28 px-28 py-16 bg-amber-100 shadow-md overflow-hidden sm:rounded-lg">
+            class="overflow-x-auto lg:h-auto lg:w-auto m-8 flex flex-col lg:justify-center items-center pt-28 px-28 py-16 bg-amber-100 shadow-md overflow-hidden lg:rounded-lg">
 
-            <div class="w-full flex justify-start">
+            <div class=" w-full flex justify-start">
                 <x-menu-layout />
             </div>
 
@@ -41,7 +41,7 @@
 <div class="w-full  mt-32">
     <x-footer-layout />
 </div>
-<script src="//unpkg.com/alpinejs" defer></script>
+
 
 </html>
 
