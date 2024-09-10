@@ -24,6 +24,7 @@
 
         @page {
             size: A4 landscape;
+
             margin: 10px;
         }
 

@@ -88,7 +88,8 @@
                             @endif
                         </td>
                         <td class="px-6 py-3">{{ $equipment->additional }}</td>
-                        <td class="px-6 py-3">คนรับผิดชอบครุภัณฑ์</td>
+                        <td class="px-6 py-3">{{ $equipment->prefix }}{{ $equipment->name }}
+                            {{ $equipment->last_name }}</td>
                         <td class="px-6 py-3">{{ $equipment->location_site_name }}</td>
                         <td class="px-6 py-3">{{ $equipment->serial_number }}</td>
                         <td class="px-6 py-3">

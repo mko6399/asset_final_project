@@ -50,7 +50,7 @@ class ReportPdfController extends Controller
             'content' => 'นี่คือเนื้อหาใน PDF ที่ใช้ฟอนต์ THSarabunNew'
         ];
 
-        $pdf = Pdf::loadView('equipment_registration.equipmentgeneratpdfall', $data);
+        $pdf = Pdf::loadView('equipment_registration.equipmentgeneratpdfall', $data)->setPaper('a4', 'portrait');;
 
         // ล้าง Cache ของ Dompdf
 

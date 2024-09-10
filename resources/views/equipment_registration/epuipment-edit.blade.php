@@ -59,8 +59,11 @@
                 <select id="status" name="status" x-model="status"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <option value="1" {{ $dataforedit->status == 1 ? 'selected' : '' }}>ใช้งานได้</option>
-                    <option value="2" {{ $dataforedit->status == 2 ? 'selected' : '' }}>ใช้งานไม่ได้</option>
-                    <option value="3" {{ $dataforedit->status == 3 ? 'selected' : '' }}>ชำรุด</option>
+                    <option value="2" {{ $dataforedit->status == 2 ? 'selected' : '' }}>ชำรุด</option>
+                    <option value="3" {{ $dataforedit->status == 3 ? 'selected' : '' }}>เสื่อมคุณภาพ</option>
+                    <option value="4" {{ $dataforedit->status == 4 ? 'selected' : '' }}>ไม่ใช้</option>
+                    <option value="5" {{ $dataforedit->status == 5 ? 'selected' : '' }}>สูญหาย</option>
+
                 </select>
             </div>
 
@@ -96,7 +99,7 @@
             </div>
 
             <!-- Additional -->
-            <div class="flex flex-col" x-show="status === '3'">
+            <div class="flex flex-col" x-show="status === '2'|| status === '3'">
                 <label for="additional" class="block text-gray-700 font-medium mb-2">หมายเหตุ:</label>
                 <textarea id="additional" name="additional"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ $dataforedit->additional }}</textarea>
@@ -149,7 +152,7 @@
             </div>
 
             <div class="flex flex-col">
-                                                  @if (Auth::user()->role !== 'officer')
+                                                     @if (Auth::user()->role !== 'officer')
                 <label for="user_id" class="block text-gray-700 font-medium mb-2">มอบหมายผู้รับผิด:</label>
                 <select id="user_id" name="user_id" x-model="user_id"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">

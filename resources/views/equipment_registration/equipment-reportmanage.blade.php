@@ -24,7 +24,7 @@
             </button>
             <button onclick="window.location.href='{{ route('generate-pdf.generatePDF') }}'"
                 class="bg-orange-300 w-full py-6 rounded-lg text-2xl font-bold text-blue-600 hover:bg-orange-400">
-                รายงานครุภัณฑ์จำแนกตามสถานะ
+                รายงานครุภัณฑ์สถานะชำรุด
             </button>
         </div>
 

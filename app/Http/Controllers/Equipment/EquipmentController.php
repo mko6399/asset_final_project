@@ -226,13 +226,16 @@ class EquipmentController extends Controller
                 ->leftJoin('images_equipment as ie', 'e.equipments_code', '=', 'ie.equipments_code')
                 ->leftJoin('location as l', 'e.location_site_code', '=', 'l.location_site_code')
                 ->leftJoin('responsible as r', 'e.equipments_code', '=', 'r.equipments_code')
-
+                ->leftJoin('users as u', 'r.user_id', '=', 'u.id')
                 ->select(
                     'e.*',
                     'toe.*',
                     'ie.*',
                     'l.*',
                     'r.*',
+                    'u.prefix',
+                    'u.name',
+                    'last_name',
 
                     'e.equipments_code'
                 )
