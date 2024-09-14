@@ -151,4 +151,37 @@ class UserManagementController extends Controller
             return redirect()->route('UserManagement.index');
         }
     }
+    public function addagency(Request $request)
+    {
+
+        $validated =  $request->validate([
+            'id' => ['nullable', 'string', 'max:20'],
+            'prefix' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['string', 'max:255'],
+            'position' => ['string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+
+
+        ]);
+
+
+        if (empty($validated['id'])) {
+
+            $validated['id'] = mt_rand(100000000, 999999999);
+        }
+        $user = User::create([
+            'id' => $validated['id'],
+            'prefix' => $validated['prefix'],
+            'name' => $validated['name'],
+            'last_name' => $validated['last_name'],
+            'position' => $validated['position'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'officer',
+        ]);
+
+        Alert::success('เพิ่มข้อมูลหน่วยงานแล้ว!!!', 'บันทึกลงในระบบอัตโนมัติหลังบันทึก');
+    }
 }

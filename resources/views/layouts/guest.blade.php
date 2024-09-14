@@ -19,29 +19,30 @@
 
 </head>
 
-<body class="font-sans text-gray-900 antialiased max-h-screen">
+<body class="font-sans text-gray-900 antialiased">
     <x-navbar-layout />
-    <div class=" m-40 flex-grow flex flex-col lg:justify-center items-center">
 
-        <div
-            class="overflow-x-auto lg:h-auto lg:w-auto m-8 flex flex-col lg:justify-center items-center pt-28 px-28 py-16 bg-amber-100 shadow-md overflow-hidden lg:rounded-lg">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row lg:space-x-8">
 
-            <div class=" w-full flex justify-start">
-                <x-menu-layout />
+
+
+            <div class="lg:w-3/4 md:w-2/3 w-full bg-amber-100 shadow-md rounded-lg p-6">
+                <div class="lg:w-1/4 md:w-1/3 w-full mb-8 lg:mb-0">
+                    <x-menu-layout />
+                </div>
+                {{ $slot }}
             </div>
-
-            {{ $slot }}
         </div>
-        @include('sweetalert::alert')
+    </div>
+
+    @include('sweetalert::alert')
+
+
+    <div class="w-full mt-32">
+        <x-footer-layout />
     </div>
 </body>
-
-
-
-<div class="w-full  mt-32">
-    <x-footer-layout />
-</div>
-
 
 </html>
 

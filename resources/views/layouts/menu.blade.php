@@ -1,5 +1,5 @@
 @if (Auth::check())
-    <div x-data="{ open: false }" class="relative inline-block text-left">
+    <div x-data="{ open: false, screenWidth: window.innerWidth }" @resize.window="screenWidth = window.innerWidth" class="relative inline-block text-left">
         <div>
             <button @click="open = !open" type="button"
                 class="inline-flex justify-between items-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-orange-200 text-sm font-medium text-orange-600 hover:bg-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
@@ -15,7 +15,9 @@
             </button>
         </div>
         <div x-show="open" @click.away="open = false"
-            class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-orange-100 ring-1 ring-black ring-opacity-5 focus:outline-none">
+            :class="{ 'origin-top-right': true, 'absolute right-0': screenWidth >= 768, 'absolute left-0': screenWidth <
+                768, 'mt-2': true, 'w-56': true, 'rounded-md': true, 'shadow-lg': true, 'bg-orange-100': true, 'ring-1': true, 'ring-black': true, 'ring-opacity-5': true, 'focus:outline-none': true }"
+            class="absolute mt-2 w-56 rounded-md shadow-lg bg-orange-100 ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div class="py-1">
                 @if (Auth::user()->role !== 'officer')
                     <a href="{{ route('usersimport') }}"
@@ -27,7 +29,6 @@
                         <span class="mr-2">•</span> จัดการข้อมูลผู้รับผิดชอบครุภัณฑ์
                     </a>
                 @endif
-
 
                 <a href='{{ route('equipment.homepage') }}'
                     class="flex items-center text-orange-700 block px-4 py-2 text-sm hover:bg-orange-200">
@@ -51,8 +52,6 @@
                         {{ __(' •    ออกจากระบบ') }}
                     </x-dropdown-link>
                 </form>
-
-
             </div>
         </div>
     </div>

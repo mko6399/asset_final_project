@@ -7,7 +7,7 @@
 
         <!-- Navigation Links -->
         <div class="text-blue-600 text-xl">
-            <p>ระบบตรวจสอบและติดตามครภัณฑ์ คณะวิทยาศาตร์และนวัฒกรรมดิจิทัล มหาวิทยาลัยทักษิณ</p>
+            <p>ระบบตรวจสอบและติดตามครภัณฑ์ คณะวิทยาศาตร์และนวัตกรรมดิจิทัล มหาวิทยาลัยทักษิณ</p>
             <p>Equipment Inspection and Tracking System, Facuity of Science and Digital Innovation, Thaksin University
             </p>
         </div>

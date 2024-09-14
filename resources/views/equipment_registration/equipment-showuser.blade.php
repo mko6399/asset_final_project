@@ -14,7 +14,7 @@
         <div class=" w-1/3 my-4">
             <a href="{{ route('UserManagement.create') }}"
                 class="flex items-center bg-blue-500 text-white px-4 py-2 font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">
-                <!-- SVG Icon for Add -->
+
                 <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -32,7 +32,7 @@
                         <th class="border border-gray-300 px-4 py-2">ตำแหน่ง</th>
                         <th class="border border-gray-300 px-4 py-2">อีเมล์</th>
 
-                        <th class="border border-gray-300 px-4 py-2">แก้ไข</th> <!-- คอลัมน์ Action สำหรับแก้ไข -->
+                        <th class="border border-gray-300 px-4 py-2">แก้ไข</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,7 +47,7 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">
                                 <a href="{{ route('UserManagement.edit', ['id' => $user->id]) }}"
                                     class="text-blue-500 hover:text-blue-700">
-                                    <!-- Icon แก้ไข -->
+
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor" class="w-6 h-6 inline-block">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

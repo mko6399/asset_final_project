@@ -101,7 +101,7 @@
     <div class="header">
         <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" class="logo">
         <h1>มหาวิทยาลัยทักษิณ</h1>
-        <h2>รายงานตรวจสอบครุภัณฑ์ประจำปี (ทั้งหมด)</h2>
+        <h2>รายงานสรุปยอดครุภัณฑ์ตรวจสอบครุภัณฑ์ประจำปี (ทั้งหมด)</h2>
         <h3>ปีงบประมาณ: ปี พ.ศ. XXXX</h3>
         <h3>วันที่: XX/XX/XXXX</h3>
     </div>
@@ -119,75 +119,26 @@
         <table>
             <thead>
                 <tr>
-                    <th rowspan="2">ลำดับที่</th>
-                    <th rowspan="2">รายการขนาดลักษณะ</th>
-                    <th rowspan="2">หมายเลขสินทรัพย์</th>
-                    <th colspan="5">ผลการตรวจสอบ</th>
-                    <th rowspan="2">เลข S/N</th>
-                    <th colspan="4">รายการรับ (ตามทะเบียนครุภัณฑ์)</th>
-                    <th rowspan="2">หน่วยงาน</th>
-                    <th rowspan="2">ผู้รับผิดชอบ</th>
-                    <th rowspan="2">สถานที่ใช้งาน</th>
-                    <th rowspan="2">หมายเหตุชำรุด</th>
-                </tr>
-                <tr>
-                    <th>ใช้ได้</th>
+                    <th>ประเภทครุภัณฑ์</th>
+                    <th>จำนวนครุภัณฑ์ทั้งหมด</th>
+                    <th>ใช้งานได้</th>
                     <th>ชำรุด</th>
                     <th>เสื่อมคุณภาพ</th>
                     <th>ไม่ใช้</th>
                     <th>สูญหาย</th>
-                    <th>ได้มาเมื่อ</th>
-                    <th>จากงบประมาณ</th>
-                    <th>วิธีที่ได้มา</th>
-                    <th>จำนวนเงิน</th>
                 </tr>
+
             </thead>
             <tbody>
-                @foreach ($dataequipment as $equipment)
+                @foreach ($dataequipment as $item)
                     <tr>
-                        <td>{{ $equipment->equipments_code }}</td>
-                        <td>{{ $equipment->item_description_name }}</td>
-                        <td>{{ $equipment->asset_number }}</td>
-                        @if ($equipment->status == 1)
-                            <td>X</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        @elseif ($equipment->status == 2)
-                            <td></td>
-                            <td>X</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        @elseif ($equipment->status == 3)
-                            <td></td>
-                            <td></td>
-                            <td>X</td>
-                            <td></td>
-                            <td></td>
-                        @elseif ($equipment->status == 4)
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>X</td>
-                            <td></td>
-                        @elseif ($equipment->status == 5)
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>X</td>
-                        @endif
-                        <td>{{ $equipment->serial_number }}</td>
-                        <td>{{ $equipment->date_acquired }}</td>
-                        <td>{{ $equipment->budget }}</td>
-                        <td>{{ $equipment->acquisition_method }}</td>
-                        <td>{{ $equipment->price }}</td>
-                        <td>สำนักงานคณะ</td>
-                        <td>{{ $equipment->prefix }} {{ $equipment->name }} {{ $equipment->last_name }}</td>
-                        <td>{{ $equipment->location_use_name }}</td>
-                        <td>-</td>
+                        <td>{{ $item->name_type_of_equipment }}</td>
+                        <td>{{ $item->total_equipments }}</td>
+                        <td>{{ $item->status_1_count }}</td>
+                        <td>{{ $item->status_2_count }}</td>
+                        <td>{{ $item->status_3_count }}</td>
+                        <td>{{ $item->status_4_count }}</td>
+                        <td>{{ $item->status_5_count }}</td>
                     </tr>
                 @endforeach
             </tbody>

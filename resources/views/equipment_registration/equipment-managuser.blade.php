@@ -35,7 +35,7 @@
 
 
 
-            <!-- Name -->
+
 
             <div class="flex flex-col">
                 <x-input-label for="id" :value="__('รหัสผู้รับผิดชอบ')" />
@@ -51,7 +51,7 @@
                 <x-input-error :messages="$errors->get('position')" class="mt-2" />
             </div>
 
-            <!-- Email Address -->
+
 
             <div class="flex flex-col">
                 <x-input-label for="email" :value="__('Email')" />

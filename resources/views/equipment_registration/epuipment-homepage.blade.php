@@ -64,11 +64,17 @@
                     <th scope="col" class="px-6 py-3">วันที่ได้มา</th>
                     <th scope="col" class="px-6 py-3">งบประมาณ</th>
                     <th scope="col" class="px-6 py-3">วันที่ได้มา</th>
-                    <th scope="col" class="px-6 py-3">--</th>
+
                     <th scope="col" class="px-6 py-3">จำนวนเงิน</th>
                     <th scope="col" class="px-6 py-3">หน่วยงานที่รับผิดชอบ</th>
                     <th scope="col" class="px-6 py-3">รูปภาพ</th>
-                    <th scope="col" class="px-6 py-3">แก้ไข</th>
+
+                    @if (Auth::user()->role !== 'officer')
+                        <th scope="col" class="px-6 py-3">แก้ไข</th>
+                    @else
+                        <th scope="col" class="px-6 py-3">แก้ไขสถานะครุภัณฑ์</th>
+                    @endif
+
                 </tr>
             </thead>
             <tbody>
@@ -80,11 +86,13 @@
                             @if ($equipment->status == 1)
                                 ใช้งานได้
                             @elseif ($equipment->status == 2)
-                                ไม่ใช้
-                            @elseif ($equipment->status == 3)
                                 ชำรุด
+                            @elseif ($equipment->status == 3)
+                                เสื่อมคุณภาพ
+                            @elseif ($equipment->status == 4)
+                                ไม่ใช้
                             @else
-                                ไม่ทราบสถานะ
+                                สูญหาย
                             @endif
                         </td>
                         <td class="px-6 py-3">{{ $equipment->additional }}</td>
@@ -98,7 +106,7 @@
                         </td>
                         <td class="px-6 py-3">{{ $equipment->budget }}</td>
                         <td class="px-6 py-3">{{ $equipment->acquisition_method }}</td>
-                        <td class="px-6 py-3">{{ $equipment->acquisition_method }}</td>
+
                         <td class="px-6 py-3">{{ number_format($equipment->price, 2) }} ฿</td>
                         <td class="px-6 py-3">หน่วยงานที่รับผิดชอบ</td>
                         <td class="px-6 py-3">
@@ -118,10 +126,10 @@
                 @endforeach
             </tbody>
         </table>
-        @if (Auth::user()->role !== 'officer')
-            <div class="flex justify-end  space-x-10">
-                <div>
 
+        <div class="flex justify-end  space-x-10">
+            <div>
+                @if (Auth::user()->role !== 'officer')
                     <button type="button" onclick="window.location.href='{{ route('equipment.index') }}'">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             class="rounded-full w-20 h-20 bg-orange-400 text-white">
@@ -129,15 +137,17 @@
                                 d="M12 5a1 1 0 0 1 1 1v4h4a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V6a1 1 0 0 1 1-1z"
                                 clip-rule="evenodd" />
                         </svg></button>
-                </div>
-                <div class="bg-orange-400 rounded-lg text-2xl w-auto h-1/2">
+                @endif
+            </div>
 
-                    <button type="button" onclick="window.location.href='{{ route('dashboardequipment.index') }}'">
+            <div class="bg-orange-400 rounded-lg text-2xl w-auto h-1/2">
 
-                        กลับหน้าหลัก
-                    </button>
-                </div>
-        @endif
-    </div>
+                <button type="button" onclick="window.location.href='{{ route('dashboardequipment.index') }}'">
+
+                    กลับหน้าหลัก
+                </button>
+            </div>
+
+        </div>
     </div>
 </x-guest-layout>

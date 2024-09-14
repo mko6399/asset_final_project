@@ -2,12 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Document</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
     <style>
         @font-face {
             font-family: 'THSarabunNew';
@@ -16,50 +15,14 @@
             src: url("{{ public_path('fonts/THSarabunNew.ttf') }}") format('truetype');
         }
 
-        @font-face {
-            font-family: 'THSarabunNew';
-            font-style: italic;
-            font-weight: normal;
-            src: url("{{ public_path('fonts/THSarabunNew Italic.ttf') }}") format('truetype');
-        }
-
-        @font-face {
-            font-family: 'THSarabunNew';
-            font-style: normal;
-            font-weight: bold;
-            src: url("{{ public_path('fonts/THSarabunNew Bold.ttf') }}") format('truetype');
-        }
-
-        @font-face {
-            font-family: 'THSarabunNew';
-            font-style: italic;
-            font-weight: bold;
-            src: url("{{ public_path('fonts/THSarabunNew BoldItalic.ttf') }}") format('truetype');
-        }
 
         body {
             font-family: "THSarabunNew", sans-serif;
-
+            border: 2px solid #000000;
+            line-height: 10pt;
         }
 
 
-        table {
-            width: 100%;
-            border: 3px solid #000000;
-
-            border-collapse: collapse;
-        }
-
-        th,
-        td,
-        tr,
-        thead {
-            border: 1px solid #000000;
-            padding: 8px;
-            text-align: left;
-
-            font-size: 1.2rem;
-        }
 
         .posi {
             display: flex;
@@ -85,47 +48,68 @@
         .heardde {
 
             font-size: 1.2rem;
-            margin: 20px;
+            display: flex;
+
         }
 
         img {
-            width: 100px;
+            width: 50%;
 
         }
     </style>
 </head>
 
 <body>
-    <div class="posi">
-        <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" />
+    @foreach ($dataequipment as $item)
+        <div class="heardde">
+
+            <div class="posi">
+                <img src="{{ public_path('uploads/equipments/' . $item->image_path) }}" alt="Equipment Image">
 
 
 
-    </div>
-
-    <div class="heardde">
-        <div class="posi">
-            <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" />
 
 
+            </div>
+            <p>
+                ชื่อครุภัณฑ์: {{ $item->item_description_name }}
+            </p>
+            <p>
+                ประเภทครุภัณฑ์: {{ $item->name_type_of_equipment }}
+            </p>
+            <p>
+                ราคา/หน่วย : {{ $item->price }}
+            </p>
+            <p>
+                จำนวน: {{ $item->amount }}
+            </p>
+            <p>
+                วันที่ได้มา: {{ $item->date_acquired }}
+            </p>
+            <p>
+                งบประมาณ: {{ $item->budget }}
+            </p>
+            <p>
+                สถานที่ใช้งาน: {{ $item->location_use_name }}
+            </p>
+            <p>
+                ผู้รับผิดชอบและใช้งาน: {{ $item->prefix }}{{ $item->name }} {{ $item->last_name }}
+            </p>
+            <p>
+                หมายเลขครุภัณฑ์: {{ $item->asset_number }}
+            </p>
+            <p>
+                ผู้ขาย: {{ $item->vendor }}
+            </p>
+            <p>
+                อ้างอิง: {{ $item->reference_number }}
+            </p>
+            <p>
+                S/N: {{ $item->serial_number }}
+            </p>
 
         </div>
-        <h3>
-            ชื่อครุภัณฑ์:
-        </h3>
-        <h3>
-            ประเภทครุภัณฑ์:
-        </h3>
-        <h3>
-            ราคา/หน่วย :
-        </h3>
-    </div>
-
-    <center>
-        <h2>รายละเอียดครุภัณฑ์ </h2>
-    </center>
-
-
+    @endforeach
 </body>
 
 </html>

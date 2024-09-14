@@ -1,10 +1,7 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-
     <style>
         @font-face {
             font-family: 'THSarabunNew';
@@ -15,9 +12,8 @@
 
         body {
             font-family: "THSarabunNew", sans-serif;
-            font-size: 1.2rem;
-            padding: 15px;
-            line-height: 8pt;
+            font-size: 1rem;
+            line-height: 12pt;
         }
 
         @page {
@@ -25,26 +21,11 @@
 
         }
 
-        .header {
-            text-align: center;
-        }
-
-        .logo {
-            width: 60px;
-
-
-        }
-
-        .table-container {
-            margin-top: 20px;
-        }
-
         table {
             width: 100%;
             border: 1px solid #000;
             border-collapse: collapse;
             font-size: 0.9rem;
-            line-height: 7pt;
             /* ลดขนาดฟอนต์ตารางเพื่อให้พอดี */
         }
 
@@ -57,42 +38,16 @@
         }
 
         tbody {
-            display: table-row-group;
+            /* display: table-row-group; */
             border: 1px solid #000;
             padding: 4px;
             /* ลด padding เพื่อประหยัดพื้นที่ */
             text-align: center;
         }
 
-        th,
-        td,
-        tr {
-            border: 1px solid #000;
-            padding: 4px;
-            /* ลด padding เพื่อประหยัดพื้นที่ */
-            text-align: center;
-        }
-
-        h1,
-        h2,
-        h3 {
-            margin: 20px;
-            padding: 0;
-        }
-
-        .section-title {
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        th {
-            font-size: 0.85rem;
-            white-space: nowrap;
-            /* บังคับให้หัวตารางไม่ขึ้นบรรทัดใหม่ */
-        }
-
-        td {
-            font-size: 0.8rem;
+        .page-break {
+            page-break-after: always;
+            /* ใช้เพื่อให้ขึ้นหน้าใหม่ */
         }
     </style>
 </head>
@@ -106,7 +61,7 @@
         <h3>วันที่: XX/XX/XXXX</h3>
     </div>
 
-    <div class="details">
+    <div class="details page-break">
         <p>แหล่งเงิน: ทั้งหมด</p>
         <p>แผนงานทั้งหมด: ทั้งหมด</p>
         <p>หน่วยงาน: สังกัดวิทยาเขตพัทลุง/คณะวิทยาศาสตร์และนวัตกรรมดิจิทัล/สำนักงานคณะวิทยาศาสตร์และนวัตกรรมดิจิทัล</p>
@@ -143,53 +98,62 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dataequipment as $equipment)
-                    <tr>
-                        <td>{{ $equipment->equipments_code }}</td>
-                        <td>{{ $equipment->item_description_name }}</td>
-                        <td>{{ $equipment->asset_number }}</td>
-                        @if ($equipment->status == 1)
-                            <td>X</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        @elseif ($equipment->status == 2)
-                            <td></td>
-                            <td>X</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        @elseif ($equipment->status == 3)
-                            <td></td>
-                            <td></td>
-                            <td>X</td>
-                            <td></td>
-                            <td></td>
-                        @elseif ($equipment->status == 4)
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>X</td>
-                            <td></td>
-                        @elseif ($equipment->status == 5)
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>X</td>
-                        @endif
-                        <td>{{ $equipment->serial_number }}</td>
-                        <td>{{ $equipment->date_acquired }}</td>
-                        <td>{{ $equipment->budget }}</td>
-                        <td>{{ $equipment->acquisition_method }}</td>
-                        <td>{{ $equipment->price }}</td>
-                        <td>สำนักงานคณะ</td>
-                        <td>{{ $equipment->prefix }} {{ $equipment->name }} {{ $equipment->last_name }}</td>
-                        <td>{{ $equipment->location_use_name }}</td>
-                        <td>-</td>
-                    </tr>
-                @endforeach
+                @php
+                    for ($i = 1; $i < 100; $i++) {
+                        if ($i % 23 == 0) {
+                            echo '</tbody>
+        </table><table style="page-break-before: always;">
+            <thead>
+                <tr>
+                    <th rowspan="2">ลำดับที่</th>
+                    <th rowspan="2">รายการขนาดลักษณะ</th>
+                    <th rowspan="2">หมายเลขสินทรัพย์</th>
+                    <th colspan="5">ผลการตรวจสอบ</th>
+                    <th rowspan="2">เลข S/N</th>
+                    <th colspan="4">รายการรับ (ตามทะเบียนครุภัณฑ์)</th>
+                    <th rowspan="2">หน่วยงาน</th>
+                    <th rowspan="2">ผู้รับผิดชอบ</th>
+                    <th rowspan="2">สถานที่ใช้งาน</th>
+                    <th rowspan="2">หมายเหตุชำรุด</th>
+                </tr>
+                <tr>
+                    <th>ใช้ได้</th>
+                    <th>ชำรุด</th>
+                    <th>เสื่อมคุณภาพ</th>
+                    <th>ไม่ใช้</th>
+                    <th>สูญหาย</th>
+                    <th>ได้มาเมื่อ</th>
+                    <th>จากงบประมาณ</th>
+                    <th>วิธีที่ได้มา</th>
+                    <th>จำนวนเงิน</th>
+                </tr>
+            </thead>
+            <tbody>';
+                        }
+                        echo '<tr>';
+                        echo '
+                    <td>' .
+                            $i .
+                            '</td>
+                    <td>เครื่องคอมพิวเตอร์ตั้งโต๊ะ</td>
+                    <td>1234567890</td>
+                    <td>✓</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>SN-ABC123</td>
+                    <td>01/01/2020</td>
+                    <td>งบประมาณแผ่นดิน</td>
+                    <td>ซื้อ</td>
+                    <td>25,000</td>
+                    <td>สำนักงานคณะ</td>
+                    <td>นายสมชาย ใจดี</td>
+                    <td>ห้องทำงาน 301</td>
+                    <td>-</td>
+                    </tr>';
+                    }
+                @endphp
             </tbody>
         </table>
     </div>

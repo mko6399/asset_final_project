@@ -99,7 +99,7 @@
             </div>
 
             <!-- Additional -->
-            <div class="flex flex-col" x-show="status === '2'|| status === '3'">
+            <div class="flex flex-col" x-show="status === '2'">
                 <label for="additional" class="block text-gray-700 font-medium mb-2">หมายเหตุ:</label>
                 <textarea id="additional" name="additional" x-bind:disabled="status !== '2' && status !== '3'"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>

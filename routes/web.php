@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Equipment\EquipmentController;
+use App\Http\Controllers\Equipment\EquipmentOneReportController;
 use App\Http\Controllers\Equipment\UserManagementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportPdfController;
@@ -41,8 +42,12 @@ Route::middleware('auth')->group(function () {
     Route::get('equipment', [EquipmentController::class, 'index'])->name('equipment.index');
     Route::get('/equipment/search', [EquipmentController::class, 'search'])->name('equipment.search');
 
-    Route::get('generate-pdf', [ReportPdfController::class, 'generatePDF'])->name('generate-pdf.generatePDF');
+    Route::get('/reportoneequipment/index', [EquipmentOneReportController::class, 'index'])->name('generate-pdf.index');
+    Route::get('generate-pdf/{id}', [ReportPdfController::class, 'generatePDF'])->name('generate-pdf.generatePDF');
     Route::get('GeneratePDFEquipmentAll', [ReportPdfController::class, 'GeneratePDFEquipmentAll'])->name('generate-pdf.GeneratePDFEquipmentAll');
+    Route::get('GeneratePDFEquipmentone/{id}', [ReportPdfController::class, 'GeneratePDFEquipmentone'])->name('generate-pdf.GeneratePDFEquipmentone');
+    Route::get('/reportdamaged', [ReportPdfController::class, 'reportpagseDamaged'])->name('generate-pdf.reportdamaged');
+
 
     Route::get('/showuser', [UserManagementController::class, 'index'])->name('UserManagement.index');
     Route::get('/showuser/create', [UserManagementController::class, 'create'])->name('UserManagement.create');

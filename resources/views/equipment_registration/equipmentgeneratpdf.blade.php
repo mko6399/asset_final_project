@@ -16,26 +16,7 @@
             src: url("{{ public_path('fonts/THSarabunNew.ttf') }}") format('truetype');
         }
 
-        @font-face {
-            font-family: 'THSarabunNew';
-            font-style: italic;
-            font-weight: normal;
-            src: url("{{ public_path('fonts/THSarabunNew Italic.ttf') }}") format('truetype');
-        }
 
-        @font-face {
-            font-family: 'THSarabunNew';
-            font-style: normal;
-            font-weight: bold;
-            src: url("{{ public_path('fonts/THSarabunNew Bold.ttf') }}") format('truetype');
-        }
-
-        @font-face {
-            font-family: 'THSarabunNew';
-            font-style: italic;
-            font-weight: bold;
-            src: url("{{ public_path('fonts/THSarabunNew BoldItalic.ttf') }}") format('truetype');
-        }
 
         body {
             font-family: "THSarabunNew", sans-serif;
@@ -95,6 +76,7 @@
     </style>
 </head>
 
+
 <body>
     <div class="posi">
         <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" />
@@ -111,15 +93,17 @@
     </div>
 
     <div class="heardde">
-        <h3>
-            ชื่อ-นามสกุล:
-        </h3>
-        <h3>
-            ตำแหน่ง:
-        </h3>
-        <h3>
-            หน่วยงาน:
-        </h3>
+        @foreach ($dataequipment as $data)
+            <h3>
+
+                ชื่อ-นามสกุล:{{ $data->name }}{{ $data->last_name }}
+            </h3>
+            <h3>
+                ตำแหน่ง:สังกัดวิทยาเขตพัทลุง/คณะวิทยาศาสตร์และนวัตกรรมดิจิทัล/สำนักงานคณะวิทยาศาสตร์และนวัตกรรมดิจิทัล
+            </h3>
+            <h3>
+                หน่วยงาน:สำนักงานคณะวิทยาศาสตร์และนวัตกรรมดิจิทัล
+            </h3>
     </div>
 
     <center>
@@ -130,21 +114,26 @@
         <table>
             <thead>
                 <tr>
-                    <th colspan="2">วันที่แจ้งชำรุด:</th>
+                    <th colspan="2">วันที่แจ้งชำรุด:
+                        {{ \Carbon\Carbon::parse($data->updated_at)->locale('th_TH')->translatedFormat('j F') }}
+                        {{ \Carbon\Carbon::parse($data->updated_at)->addYears(543)->year }}
+                    </th>
 
                     <th>หมายเลขชำรุด:</th>
 
                 </tr>
                 <tr>
-                    <th colspan="3">ชื่อ/ลักษะครุภัณฑ์:</th>
+                    <th colspan="3">ชื่อ/ลักษะครุภัณฑ์:{{ $data->item_description_name }}</th>
                 </tr>
                 <tr>
-                    <th>ประเภทครุภัณฑ์:</th>
-                    <th colspan="2">หมายเหตุชำรุด:</th>
+                    <th>ประเภทครุภัณฑ์:{{ $data->name_type_of_equipment }}</th>
+                    <th colspan="2">หมายเหตุชำรุด:{{ $data->additional }}</th>
                 </tr>
+
             </thead>
 
         </table>
+        @endforeach
     </div>
     <div class="posi2">
         <p>ลงชื่อ..............................................................</p>
