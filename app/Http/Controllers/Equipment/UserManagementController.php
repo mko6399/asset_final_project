@@ -18,9 +18,13 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UserManagementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('isAdmin');
+    }
+
+
+
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -37,7 +41,7 @@ class UserManagementController extends Controller
                         ->orWhere('email', 'like', "%{$search}%");
                 }
             })
-            ->get();
+            ->paginate(4);
         return view('equipment_registration.equipment-showuser', compact('datauserformanage'));
     }
 

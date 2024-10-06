@@ -2,8 +2,10 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 
     <style>
         @font-face {
@@ -12,6 +14,7 @@
             font-weight: normal;
             src: url("{{ public_path('fonts/THSarabunNew.ttf') }}") format('truetype');
         }
+
 
         body {
             font-family: "THSarabunNew", sans-serif;
@@ -29,9 +32,8 @@
             text-align: center;
         }
 
-        .logo {
+        img {
             width: 60px;
-
 
         }
 
@@ -99,11 +101,13 @@
 
 <body>
     <div class="header">
-        <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" class="logo">
+        <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" />
         <h1>มหาวิทยาลัยทักษิณ</h1>
         <h2>รายงานสรุปยอดครุภัณฑ์ตรวจสอบครุภัณฑ์ประจำปี (ทั้งหมด)</h2>
-        <h3>ปีงบประมาณ: ปี พ.ศ. XXXX</h3>
-        <h3>วันที่: XX/XX/XXXX</h3>
+        <h3>ปีงบประมาณ: {{ $year }}</h3>
+        <!-- ถ้าไม่มี session จะใช้ค่าปีปัจจุบัน -->
+
+
     </div>
 
     <div class="details">

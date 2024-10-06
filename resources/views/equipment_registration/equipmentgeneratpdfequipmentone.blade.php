@@ -31,10 +31,19 @@
 
         }
 
+        .setposi {
+            padding: 1.3rem;
+            display: flex;
+            justify-content: center;
 
-        p {
-            font-size: 1.2rem
+            font-size: 1.3rem;
+            line-height: 15pt;
         }
+
+        /* p {
+            font-size: 1.5rem;
+
+        } */
 
         .posi2 {
             position: absolute;
@@ -45,15 +54,14 @@
 
         }
 
-        .heardde {
-
-            font-size: 1.2rem;
-            display: flex;
-
+        span {
+            padding: 1.5rem;
+            font-weight: bold;
         }
 
+
         img {
-            width: 50%;
+            width: 15rem;
 
         }
     </style>
@@ -61,53 +69,60 @@
 
 <body>
     @foreach ($dataequipment as $item)
-        <div class="heardde">
+        <div class="">
 
             <div class="posi">
-                <img src="{{ public_path('uploads/equipments/' . $item->image_path) }}" alt="Equipment Image">
-
-
+                @if ($item->image_path)
+                    <img src="{{ public_path('uploads/equipments/' . $item->image_path) }}" alt="Equipment Image">
+                @else
+                    <p>ไม่มีรูป</p>
+                @endif
 
 
 
             </div>
-            <p>
-                ชื่อครุภัณฑ์: {{ $item->item_description_name }}
-            </p>
-            <p>
-                ประเภทครุภัณฑ์: {{ $item->name_type_of_equipment }}
-            </p>
-            <p>
-                ราคา/หน่วย : {{ $item->price }}
-            </p>
-            <p>
-                จำนวน: {{ $item->amount }}
-            </p>
-            <p>
-                วันที่ได้มา: {{ $item->date_acquired }}
-            </p>
-            <p>
-                งบประมาณ: {{ $item->budget }}
-            </p>
-            <p>
-                สถานที่ใช้งาน: {{ $item->location_use_name }}
-            </p>
-            <p>
-                ผู้รับผิดชอบและใช้งาน: {{ $item->prefix }}{{ $item->name }} {{ $item->last_name }}
-            </p>
-            <p>
-                หมายเลขครุภัณฑ์: {{ $item->asset_number }}
-            </p>
-            <p>
-                ผู้ขาย: {{ $item->vendor }}
-            </p>
-            <p>
-                อ้างอิง: {{ $item->reference_number }}
-            </p>
-            <p>
-                S/N: {{ $item->serial_number }}
-            </p>
 
+            <div class="setposi">
+
+
+                <p>
+                    <span>ชื่อครุภัณฑ์:</span> {{ $item->item_description_name }}
+                </p>
+                <p>
+                    <span>ประเภทครุภัณฑ์:</span> {{ $item->name_type_of_equipment }}
+                </p>
+                <p>
+                    <span>ราคา/หน่วย:</span> {{ $item->price }}
+                </p>
+                <p>
+                    <span>จำนวน:</span> {{ $item->amount }}
+                </p>
+                <p>
+                    <span>วันที่ได้มา:</span> {{ $item->date_acquired }}
+                </p>
+                <p>
+                    <span>งบประมาณ:</span> {{ $item->budget }}
+                </p>
+                <p>
+                    <span>สถานที่ใช้งาน:</span> {{ $item->location_use_name }}
+                </p>
+                <p>
+                    <span>ผู้รับผิดชอบและใช้งาน:</span> {{ $item->prefix }}{{ $item->name }} {{ $item->last_name }}
+                </p>
+                <p>
+                    <span>หมายเลขครุภัณฑ์:</span> {{ $item->asset_number }}
+                </p>
+                <p>
+                    <span>ผู้ขาย:</span> {{ $item->vendor }}
+                </p>
+                <p>
+                    <span>อ้างอิง:</span> {{ $item->reference_number }}
+                </p>
+                <p>
+                    <span>S/N:</span> {{ $item->serial_number }}
+                </p>
+
+            </div>
         </div>
     @endforeach
 </body>

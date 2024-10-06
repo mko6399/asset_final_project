@@ -1,16 +1,16 @@
 <x-guest-layout>
-    <h2 class="text-2xl font-bold mb-6 text-blue-600">ครุภัณฑ์</h2>
+
 
     <form method="POST" action="{{ route('equipment.update', $dataforedit->equipments_code) }}" x-data="{
         status: '{{ $dataforedit->status }}',
-        imagePreview: '{{ $dataforedit->imagesequipments->first()->image_path ? asset('uploads/equipments/' . $dataforedit->imagesequipments->first()->image_path) : '' }}',
+        imagePreview: '{{ $dataforedit->imagesequipments->isNotEmpty() ? asset('uploads/equipments/' . $dataforedit->imagesequipments->first()->image_path) : '' }}',
         location_site_code: '{{ $dataforedit->location->location_site_code ?? '' }}',
-        isAdmin: {{ Auth::user()->role === 'admin' ? 'true' : 'false' }}
     }"
         enctype="multipart/form-data" class="space-y-4">
+
         @csrf
         @method('PUT')
-
+        <h2 class="text-center text-2xl font-bold mb-6 text-blue-600">ครุภัณฑ์</h2>
         <!-- Upload image -->
         <div class="flex flex-col items-center">
 
@@ -34,7 +34,7 @@
                 <label for="asset_number" class="block text-gray-700 font-medium mb-2">หมายเลขครุภัณฑ์:</label>
                 <input id="asset_number" type="text" name="asset_number" value="{{ $dataforedit->asset_number }}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
             </div>
 
             <!-- Item Description Name -->
@@ -44,15 +44,14 @@
                 <input id="item_description_name" type="text" name="item_description_name"
                     value="{{ $dataforedit->item_description_name }}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
             </div>
 
             <!-- Type of Equipment -->
             <div class="flex flex-col">
                 <label for="type_of_equipment_id" class="block text-gray-700 font-medium mb-2">ประเภทครุภัณฑ์:</label>
-                <select id="type_of_equipment_id" name="type_of_equipment_id"
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                <select id="type_of_equipment_id" name="type_of_equipment_id" disabled
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <option value="">เลือกประเภท</option>
                     @foreach ($dataTypeequipment as $value)
                         <option value="{{ $value->type_of_equipment_id }}"
@@ -81,7 +80,7 @@
                 <label for="date_acquired" class="block text-gray-700 font-medium mb-2">วันที่ได้มา:</label>
                 <input id="date_acquired" type="date" name="date_acquired" value="{{ $dataforedit->date_acquired }}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
             </div>
 
             <!-- Location -->
@@ -89,7 +88,7 @@
                 <label for="location_site_code" class="block text-gray-700 font-medium mb-2">สถานที่:</label>
                 <select id="location_site_code" name="location_site_code" x-model="location_site_code"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
                     <option value="0">เลือกสถานที่</option>
                     @foreach ($datalocation as $value)
                         <option value="{{ $value->location_site_code }}"
@@ -104,22 +103,17 @@
             <div class="flex flex-col">
                 <label for="location_use_name" class="block text-gray-700 font-medium mb-2">สถานที่ใช้งานใน:</label>
                 <textarea id="location_use_name" name="location_use_name"
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ $dataforedit->location_use->location_use_name ?? '' }}</textarea>
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ $dataforedit->location_use_name }}</textarea>
             </div>
 
-            <!-- Additional -->
-            <div class="flex flex-col" x-show="status === '2'">
-                <label for="additional" class="block text-gray-700 font-medium mb-2">หมายเหตุ:</label>
-                <textarea id="additional" name="additional"
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ $dataforedit->additional }}</textarea>
-            </div>
+
 
             <!-- Vendor -->
             <div class="flex flex-col">
                 <label for="vendor" class="block text-gray-700 font-medium mb-2">ผู้ขาย:</label>
                 <input id="vendor" type="text" name="vendor" value="{{ $dataforedit->vendor }}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
             </div>
 
             <!-- Acquisition Method -->
@@ -128,16 +122,15 @@
                 <input id="acquisition_method" type="text" name="acquisition_method"
                     value="{{ $dataforedit->acquisition_method }}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
             </div>
 
             <!-- Price -->
             <div class="flex flex-col">
                 <label for="price" class="block text-gray-700 font-medium mb-2">ราคา/หน่วย:</label>
-                <input id="price" type="number" step="0.01" name="price"
-                    value="{{ $dataforedit->price }}"
+                <input id="price" type="number" step="0.01" name="price" value="{{ $dataforedit->price }}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
             </div>
 
             <!-- Reference Number -->
@@ -146,7 +139,7 @@
                 <input id="reference_number" type="text" name="reference_number"
                     value="{{ $dataforedit->reference_number }}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
             </div>
 
             <!-- Budget -->
@@ -154,39 +147,35 @@
                 <label for="budget" class="block text-gray-700 font-medium mb-2">งบประมาณ:</label>
                 <input id="budget" type="text" name="budget" value="{{ $dataforedit->budget }}"
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    x-bind:disabled="!isAdmin">
+                    disabled>
             </div>
-            <div class="flex flex-col">
-                @if (Auth::user()->role !== 'officer')
-                    <label for="user_id" class="block text-gray-700 font-medium mb-2">มอบหมายผู้รับผิด:</label>
-                    <select id="user_id" name="user_id" x-model="user_id"
-                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="0">เลือกผู้รับผิดชอบ</option>
-                        @foreach ($data_use as $value)
-                            <option value="{{ $value->id }}"
-                                {{ $value->id == $dataforedit->id ? 'selected' : '' }}>
-                                {{ $value->prefix . $value->name . ' ' . $value->last_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                @else
-                    <!-- สำหรับผู้ใช้ที่เป็น 'officer' หรือแอดมิน ให้ซ่อนฟิลด์นี้ -->
-                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                @endif
+
+            {{--
+            @foreach ($data_use as $value)
+                <p>{{ $value->id }}{{ $value->name }}</p>
+            @endforeach --}}
+
+
+            <!-- Additional -->
+            <div class="flex flex-col" x-show="status === '2'">
+                <label for="additional" class="block text-gray-700 font-medium mb-2">หมายเหตุ:</label>
+                <textarea id="additional" name="additional"
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ $dataforedit->additional }}</textarea>
             </div>
         </div>
 
         <!-- Submit Button -->
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-5">
             <button type="submit"
-                class="px-6 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                x-bind:disabled="!isAdmin">
+                class="px-6 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 @if (Auth::user()->role !== 'officer')
                     บันทึกการเปลี่ยนแปลง
                 @else
                     บันทึกการแก้ไขสถานะ
                 @endif
             </button>
+            <button type="button" onclick="window.location.href='{{ route('equipment.homepage') }}'"
+                class="lg:w-1/6 md:w-1/3 bg-[#e33a31db] text-white px-4 py-2 font-bold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600">ยกเลิก</button>
             @if (Auth::user()->role !== 'officer')
                 <a href="{{ route('equipment.delete', ['equipments_code' => $dataforedit->equipments_code]) }}"
                     data-confirm-delete="true"
@@ -194,6 +183,7 @@
                     ลบครุภัณฑ์
                 </a>
             @endif
+
         </div>
     </form>
     <script>

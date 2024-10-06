@@ -11,4 +11,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    base: '/642021154/project/public/',
 });

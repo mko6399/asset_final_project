@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <style>
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: normal;
+            src: url("{{ public_path('fonts/THSarabunNew.ttf') }}") format('truetype');
+        }
+
+
+        body {
+            font-family: "THSarabunNew", sans-serif;
+
+            line-height: 8pt;
+        }
+
+        @page {
+            size: A4 landscape;
+
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        img {
+            width: 60px;
+        }
+
+        table {
+            width: 100%;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            line-height: 7pt;
+            /* ลดขนาดฟอนต์ตารางเพื่อให้พอดี */
+        }
+
+        thead {
+            display: table-header-group;
+            border: 1px solid #000;
+            padding: 4px;
+            /* ลด padding เพื่อประหยัดพื้นที่ */
+            text-align: center;
+        }
+
+        tbody {
+            display: table-row-group;
+            border: 1px solid #000;
+            padding: 4px;
+            /* ลด padding เพื่อประหยัดพื้นที่ */
+            text-align: center;
+        }
+
+        th,
+        td,
+        tr {
+            border: 1px solid #000;
+            padding: 4px;
+            /* ลด padding เพื่อประหยัดพื้นที่ */
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" />
+        <h1>มหาวิทยาลัยทักษิณ</h1>
+        <h2>รายงานสรุปยอดครุภัณฑ์ตรวจสอบครุภัณฑ์ประจำปี (ทั้งหมด)</h2>
+        <h3>ปีงบประมาณ: {{ $year }}</h3>
+        <!-- ถ้าไม่มี session จะใช้ค่าปีปัจจุบัน -->
+
+        <h3>{{ $currentDate }}</h3>
+    </div>
+
+    <div class="details">
+        <p>แหล่งเงิน: ทั้งหมด</p>
+        <p>แผนงานทั้งหมด: ทั้งหมด</p>
+        <p>หน่วยงาน: สังกัดวิทยาเขตพัทลุง/คณะวิทยาศาสตร์และนวัตกรรมดิจิทัล/สำนักงานคณะวิทยาศาสตร์และนวัตกรรมดิจิทัล</p>
+        <p>กองทุน: ทั้งหมด</p>
+        <p>ประเภท: ทั้งหมด</p>
+        <p class="section-title">สถานที่ใช้งาน: สำนักงานคณะวิทยาศาสตร์และนวัตกรรมดิจิทัล</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ประเภทครุภัณฑ์</th>
+                <th>จำนวนครุภัณฑ์ทั้งหมด</th>
+                <th>ใช้งานได้</th>
+                <th>ชำรุด</th>
+                <th>เสื่อมคุณภาพ</th>
+                <th>ไม่ใช้</th>
+                <th>สูญหาย</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach ($dataequipment as $item)
+                <tr>
+                    <td>{{ $item->name_type_of_equipment }}</td>
+                    <td>{{ $item->total_equipments }}</td>
+                    <td>{{ $item->status_1_count }}</td>
+                    <td>{{ $item->status_2_count }}</td>
+                    <td>{{ $item->status_3_count }}</td>
+                    <td>{{ $item->status_4_count }}</td>
+                    <td>{{ $item->status_5_count }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+</body>
+
+</html>

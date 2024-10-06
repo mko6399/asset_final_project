@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __('คุณสมารถแก้ไขข้อมูลได้') }}
         </p>
     </header>
 
@@ -17,31 +17,35 @@
         @csrf
         @method('patch')
         <div>
-            <x-input-label for="prefix" :value="__('Prefix')" />
-            <x-select id="prefix" name="prefix" :options="[
-                '' => 'คำนำหน้าชื่อ',
-                'นาย' => 'นาย',
-                'นาง' => 'นาง',
-                'นางสาว' => 'นางสาว',
-                'อื่นๆ' => 'อื่นๆ',
-            ]" :selected="old('prefix', $user->prefix) ?: ''" required autofocus />
+
+
+            <x-input-label for="prefix" :value="__('คำนำหน้า')" />
+            <select id="prefix" name="prefix"
+                class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 rounded-md shadow-sm">
+                <option value="">{{ 'คำนำหน้าชื่อ' }}</option>
+                <option value="นาย" {{ old('prefix', $user->prefix) == 'นาย' ? 'selected' : '' }}>นาย</option>
+                <option value="นาง" {{ old('prefix', $user->prefix) == 'นาง' ? 'selected' : '' }}>นาง</option>
+                <option value="นางสาว" {{ old('prefix', $user->prefix) == 'นางสาว' ? 'selected' : '' }}>นางสาว</option>
+                <option value="อื่นๆ" {{ old('prefix', $user->prefix) == 'อื่นๆ' ? 'selected' : '' }}>อื่นๆ</option>
+            </select>
             <x-input-error :messages="$errors->get('prefix')" class="mt-2" />
+
         </div>
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('ชื่อ')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
                 required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
         <div>
-            <x-input-label for="last_name" :value="__('LastName')" />
+            <x-input-label for="last_name" :value="__('นามสกุล')" />
             <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('name', $user->last_name)"
                 required autofocus autocomplete="last_name" />
             <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
         </div>
 
         <div>
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('อีเมล์')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)"
                 required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -67,7 +71,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('บันทึก') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"

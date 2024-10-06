@@ -38,6 +38,7 @@ class EquipmentOneReportController extends Controller
 
                     'e.equipments_code'
                 )
+                ->whereNotNull('r.user_id')
                 ->get();
         } else {
 

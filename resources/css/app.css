@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'THSarabunNew';
+    font-style: normal;
+    font-weight: normal;
+    src: url("{{ public_path('fonts/THSarabunNew.ttf') }}") format('truetype');
+}
 
 .setpo {
 

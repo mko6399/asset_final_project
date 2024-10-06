@@ -18,6 +18,7 @@ class Equipments extends Model
      */
     protected $table = 'equipments';
     protected $primaryKey = 'equipments_code';
+
     protected $fillable = [
         'equipments_code',
         'status',

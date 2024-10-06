@@ -5,15 +5,12 @@ namespace App\Imports;
 use App\Models\Agency;
 use App\Models\Equipments;
 use App\Models\Images_equipment;
-use App\Models\Location;
-use App\Models\Location_use;
-use App\Models\Responsible;
 
-use App\Models\Type_of_equipment;
-use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Mockery\Undefined;
 
 class UsersImport implements ToModel, WithHeadingRow
 {
@@ -24,6 +21,8 @@ class UsersImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
+
+        // dd($row);
         $user = Auth::user();
         $userId = $user->id;
         $userEmail = $user->email;
@@ -45,10 +44,20 @@ class UsersImport implements ToModel, WithHeadingRow
         $originalDate = $row['date_acquired'] ?? null;
         $date = \DateTime::createFromFormat('d-m-Y', $originalDate);
         $formattedDate = $date ? $date->format('Y-m-d') : null;
+        $existingEquipment = Equipments::where('asset_number', $row['asset_number'])->first();
+
+        if ($existingEquipment) {
+            Alert::error('มีข้อมูลที่ซ้ำกัน!!!', 'โปรดตรวจสอบว่าในระบบคุณมีข้อมูลนี้อยู่แล้ว');
+            return null;
+        }
+        if (empty($row['location_site_code']) || empty($row['type_of_equipment_id'])) {
+            Alert::error('ใน Excel !!!', 'คุณยังไม่ใส่ระบุเลขสถานที่(location_site_code) หรือ ประเภทครุภัณฑ์(type_of_equipment_id) โปรดระบุ และตรวจให้เรียบร้อยก่อนนำเข้า');
+            return null;
+        }
 
 
         $equipment = Equipments::create([
-            'equipments_code' => $row['equipments_code'],
+
             'status' => $status,
             'asset_number' => $row['asset_number'] ?? null,
             'date_acquired' => $formattedDate,
@@ -56,14 +65,14 @@ class UsersImport implements ToModel, WithHeadingRow
             'vendor' => $row['vendor'] ?? null,
             'acquisition_method' => $row['acquisition_method'] ?? null,
             'price' => $row['price'] ?? 0,
-            'amount' => $row['amount'] ?? 0,
+            'amount' => 1,
             'additional' => $row['additional'] ?? null,
             'reference_number' => $row['reference_number'] ?? null,
             'budget' => $row['budget'] ?? null,
             'serial_number' => $row['serial_number'] ?? null,
             'location_use_name' => $row['location_use_name'] ?? null,
-            'location_site_code' => 1,
-            'type_of_equipment_id' => 1,
+            'location_site_code' =>  $row['location_site_code'],
+            'type_of_equipment_id' => $row['type_of_equipment_id'] ?? null,
         ]);
 
 
@@ -82,6 +91,7 @@ class UsersImport implements ToModel, WithHeadingRow
 
         ]);
 
+        Alert::success('นำเข้าข้อมูลสำเร็จ', 'บันทึกข้อมูลเรียบร้อย');
         return $equipment;
     }
     public function headingRow(): int

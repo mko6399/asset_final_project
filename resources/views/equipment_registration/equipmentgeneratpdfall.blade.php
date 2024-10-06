@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
@@ -12,6 +13,9 @@
             font-weight: normal;
             src: url("{{ public_path('fonts/THSarabunNew.ttf') }}") format('truetype');
         }
+
+
+
 
         body {
             font-family: "THSarabunNew", sans-serif;
@@ -94,16 +98,21 @@
         td {
             font-size: 0.8rem;
         }
+
+        img {
+            width: 60px;
+        }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" class="logo">
+        <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo">
         <h1>มหาวิทยาลัยทักษิณ</h1>
         <h2>รายงานตรวจสอบครุภัณฑ์ประจำปี (ทั้งหมด)</h2>
-        <h3>ปีงบประมาณ: ปี พ.ศ. XXXX</h3>
-        <h3>วันที่: XX/XX/XXXX</h3>
+        <h3>ปีงบประมาณ: {{ $year }}</h3>
+
+        <h3>{{ $currentDate }}</h3>
     </div>
 
     <div class="details">
@@ -187,7 +196,13 @@
                         <td>สำนักงานคณะ</td>
                         <td>{{ $equipment->prefix }} {{ $equipment->name }} {{ $equipment->last_name }}</td>
                         <td>{{ $equipment->location_use_name }}</td>
-                        <td>-</td>
+
+                        @if ($equipment->additional)
+                            <td> {{ $equipment->additional }}</td>
+                        @else
+                            <th>ไม่ได้ระบุไว้</th>
+                        @endif
+
                     </tr>
                 @endforeach
             </tbody>

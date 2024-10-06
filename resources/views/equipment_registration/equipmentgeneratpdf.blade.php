@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Document</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
         @font-face {
             font-family: 'THSarabunNew';
@@ -79,6 +78,7 @@
 
 <body>
     <div class="posi">
+
         <img src="{{ public_path('build/assets/TSULOGOblack.jpg') }}" alt="logo" />
 
         <h1>ใบแจ้งชำรุด </h1>
@@ -127,7 +127,13 @@
                 </tr>
                 <tr>
                     <th>ประเภทครุภัณฑ์:{{ $data->name_type_of_equipment }}</th>
-                    <th colspan="2">หมายเหตุชำรุด:{{ $data->additional }}</th>
+
+                    @if ($data->additional)
+                        <th colspan="2">หมายเหตุชำรุด:{{ $data->additional }}</th>
+                    @else
+                        <th colspan="2">หมายเหตุชำรุด:ไม่ได้ระบุไว้</th>
+                    @endif
+
                 </tr>
 
             </thead>

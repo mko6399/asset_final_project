@@ -48,6 +48,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    // public function hasRole($role): bool
+    // {
+
+    //     return $this->role === $role; // ปรับให้เหมาะกับวิธีการจัดการบทบาทในระบบของคุณ
+    // }
 
     public function agency()
     {

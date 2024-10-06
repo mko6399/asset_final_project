@@ -58,18 +58,28 @@ class ReportPdfController extends Controller
         // ล้าง Cache ของ Dompdf
 
 
-        return $pdf->download('dataequipmentstatus.pdf');
+        return $pdf->stream('dataequipmentstatus.pdf');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function GeneratePDFEquipmentAll()
+    public function GeneratePDFEquipmentAll(Request $request)
     {
+
+
+
         $user = Auth::user();
         $userrole = $user->role;
         $userId = $user->id;
 
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+
+        $year = $request->input('budget_year');
+        $currentDate = thaidate('วันที่ j F พ.ศ.Y');
+        // dd($currentDate);
         if ($userrole == 'admin') {
             $dataequipment = DB::table('equipments as e')
                 ->leftJoin('type_of_equipment as toe', 'e.type_of_equipment_id', '=', 'toe.type_of_equipment_id')
@@ -85,19 +95,19 @@ class ReportPdfController extends Controller
                     DB::raw('SUM(CASE WHEN e.status = 3 THEN 1 ELSE 0 END) as status_3_count'),  // นับจำนวนสถานะ 3
                     DB::raw('SUM(CASE WHEN e.status = 4 THEN 1 ELSE 0 END) as status_4_count'),  // นับจำนวนสถานะ 4
                     DB::raw('SUM(CASE WHEN e.status = 5 THEN 1 ELSE 0 END) as status_5_count')   // นับจำนวนสถานะ 5
-                )
-                ->groupBy('toe.name_type_of_equipment')  // จัดกลุ่มตามประเภทอุปกรณ์
-                ->get();
+                );
+            if (!empty($start_date) && !empty($end_date)) {
+                $dataequipment->whereBetween('e.date_acquired', [$start_date, $end_date]); // ฟิลเตอร์ช่วงวันที่
+            }
+            $dataequipment = $dataequipment->groupBy('toe.name_type_of_equipment')->get();
 
-            $pdf = Pdf::loadView('equipment_registration.epquiment-adminreport', ['dataequipment' => $dataequipment])->setPaper('a4', 'portrait');
+            $pdf = Pdf::loadView('equipment_registration.eqiupment-reporttestall', ['dataequipment' => $dataequipment, 'year' => $year, 'currentDate' => $currentDate])->setPaper('a4', 'portrait');
         } else {
-
             $dataequipment = DB::table('equipments as e')
                 ->leftJoin('type_of_equipment as toe', 'e.type_of_equipment_id', '=', 'toe.type_of_equipment_id')
                 ->leftJoin('images_equipment as ie', 'e.equipments_code', '=', 'ie.equipments_code')
                 ->leftJoin('location as l', 'e.location_site_code', '=', 'l.location_site_code')
                 ->leftJoin('responsible as r', 'e.equipments_code', '=', 'r.equipments_code')
-
                 ->join('users as u', 'r.user_id', '=', 'u.id')
                 ->where('r.user_id', $userId) // Filter by the logged-in user's ID
                 ->select(
@@ -109,11 +119,18 @@ class ReportPdfController extends Controller
                     'u.last_name',
                     'ie.*',
                     'l.*',
-                    'r.*',
+                    'r.*'
+                );
 
-                )
-                ->get();
-            $pdf = Pdf::loadView('equipment_registration.equipmentgeneratpdfall', ['dataequipment' => $dataequipment])->setPaper('a4', 'portrait');
+            if (!empty($start_date) && !empty($end_date)) {
+                $dataequipment->whereBetween('e.date_acquired', [$start_date, $end_date]); // ฟิลเตอร์ช่วงวันที่
+            }
+
+            $dataequipment = $dataequipment->get();  // ดึงข้อมูลทั้งหมดโดยไม่จัดกลุ่ม
+
+
+
+            $pdf = Pdf::loadView('equipment_registration.equipmentgeneratpdfall', ['dataequipment' => $dataequipment, 'year' => $year, 'currentDate' => $currentDate])->setPaper('a4', 'portrait');
         }
         // dd($dataequipment);
 
@@ -124,7 +141,7 @@ class ReportPdfController extends Controller
         // ล้าง Cache ของ Dompdf
         // $pdf = Pdf::loadView('equipment_registration.equipmentgeneratpdfall', $data)->setPaper('a4', 'portrait');;
 
-        return $pdf->download('GeneratePDFEquipmentAll.pdf');
+        return $pdf->stream('GeneratePDFEquipmentAll.pdf');
     }
     /**
      * Display the specified resource.
@@ -163,7 +180,7 @@ class ReportPdfController extends Controller
 
 
 
-        return $pdf->download('GeneratePDFEquipmentAll.pdf');
+        return $pdf->stream('GeneratePDFEquipmentAll.pdf');
     }
 
     /**
