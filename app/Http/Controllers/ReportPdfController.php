@@ -75,9 +75,26 @@ class ReportPdfController extends Controller
 
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
+        if (!empty($start_date) && !empty($end_date)) {
+            $start_date_query = $start_date;
+            $end_date_query = $end_date;
 
 
+            $start_date_query = \Carbon\Carbon::createFromFormat('Y-m-d', $start_date)->addYears(543)->format('Y-m-d');
+            $end_date_query = \Carbon\Carbon::createFromFormat('Y-m-d', $end_date)->addYears(543)->format('Y-m-d');
+
+            $start_date_th = \Carbon\Carbon::createFromFormat('Y-m-d', $start_date)->addYears(543)->locale('th')->translatedFormat('j F Y');
+            $end_date_th = \Carbon\Carbon::createFromFormat('Y-m-d', $end_date)->addYears(543)->locale('th')->translatedFormat('j F Y');
+        } else {
+            $start_date_query = null;
+            $end_date_query = null;
+            $start_date_th = null;
+            $end_date_th = null;
+        }
         $year = $request->input('budget_year');
+
+
+
         $currentDate = thaidate('วันที่ j F พ.ศ.Y');
         // dd($currentDate);
         if ($userrole == 'admin') {
@@ -96,12 +113,17 @@ class ReportPdfController extends Controller
                     DB::raw('SUM(CASE WHEN e.status = 4 THEN 1 ELSE 0 END) as status_4_count'),  // นับจำนวนสถานะ 4
                     DB::raw('SUM(CASE WHEN e.status = 5 THEN 1 ELSE 0 END) as status_5_count')   // นับจำนวนสถานะ 5
                 );
-            if (!empty($start_date) && !empty($end_date)) {
-                $dataequipment->whereBetween('e.date_acquired', [$start_date, $end_date]); // ฟิลเตอร์ช่วงวันที่
+            if (!empty($year)) {
+                $dataequipment->whereYear('e.date_acquired', $year); // ฟิลเตอร์ตามปีงบประมาณ
             }
+            if (!empty($start_date_th) && !empty($end_date_th)) {
+                $dataequipment->whereBetween('e.date_acquired', [$start_date_query, $end_date_query]); // ฟิลเตอร์ช่วงวันที่
+            }
+
+
             $dataequipment = $dataequipment->groupBy('toe.name_type_of_equipment')->get();
 
-            $pdf = Pdf::loadView('equipment_registration.eqiupment-reporttestall', ['dataequipment' => $dataequipment, 'year' => $year, 'currentDate' => $currentDate])->setPaper('a4', 'portrait');
+            $pdf = Pdf::loadView('equipment_registration.eqiupment-reporttestall', ['dataequipment' => $dataequipment, 'year' => $year, 'currentDate' => $currentDate, 'start_date_th' => $start_date_th, 'end_date_th' => $end_date_th])->setPaper('a4', 'portrait');
         } else {
             $dataequipment = DB::table('equipments as e')
                 ->leftJoin('type_of_equipment as toe', 'e.type_of_equipment_id', '=', 'toe.type_of_equipment_id')
@@ -122,24 +144,20 @@ class ReportPdfController extends Controller
                     'r.*'
                 );
 
-            if (!empty($start_date) && !empty($end_date)) {
-                $dataequipment->whereBetween('e.date_acquired', [$start_date, $end_date]); // ฟิลเตอร์ช่วงวันที่
+            if (!empty($year)) {
+                $dataequipment->whereYear('e.date_acquired', $year); // ฟิลเตอร์ตามปีงบประมาณ
+            }
+            if (!empty($start_date_th) && !empty($end_date_th)) {
+                $dataequipment->whereBetween('e.date_acquired', [$start_date_query, $end_date_query]); // ฟิลเตอร์ช่วงวันที่
             }
 
             $dataequipment = $dataequipment->get();  // ดึงข้อมูลทั้งหมดโดยไม่จัดกลุ่ม
 
 
 
-            $pdf = Pdf::loadView('equipment_registration.equipmentgeneratpdfall', ['dataequipment' => $dataequipment, 'year' => $year, 'currentDate' => $currentDate])->setPaper('a4', 'portrait');
+            $pdf = Pdf::loadView('equipment_registration.equipmentgeneratpdfall', ['dataequipment' => $dataequipment, 'year' => $year, 'currentDate' => $currentDate, 'start_date_th' => $start_date_th, 'end_date_th' => $end_date_th])->setPaper('a4', 'portrait');
         }
-        // dd($dataequipment);
 
-
-
-        // $pdf = Pdf::loadView('equipment_registration.eqtest', $data)->setPaper('a4', 'portrait');;
-
-        // ล้าง Cache ของ Dompdf
-        // $pdf = Pdf::loadView('equipment_registration.equipmentgeneratpdfall', $data)->setPaper('a4', 'portrait');;
 
         return $pdf->stream('GeneratePDFEquipmentAll.pdf');
     }

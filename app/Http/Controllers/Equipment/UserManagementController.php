@@ -30,18 +30,21 @@ class UserManagementController extends Controller
         $search = $request->input('search');
 
         $datauserformanage = DB::table('users')
-            ->select('id', 'prefix', 'name', 'last_name', 'position', 'email', 'role')
-            ->where('role', 'officer')
+            ->leftJoin('responsible', 'users.id', '=', 'responsible.user_id')
+            ->select('users.id', 'users.prefix', 'users.name', 'users.last_name', 'users.position', 'users.email', 'users.role', DB::raw('COUNT(responsible.equipments_code) as equipment_count'))
+            ->where('users.role', 'officer')
             ->where(function ($query) use ($search) {
                 if ($search) {
-                    $query->where('prefix', 'like', "%{$search}%")
-                        ->orWhere('name', 'like', "%{$search}%")
-                        ->orWhere('last_name', 'like', "%{$search}%")
-                        ->orWhere('position', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%");
+                    $query->where('users.prefix', 'like', "%{$search}%")
+                        ->orWhere('users.name', 'like', "%{$search}%")
+                        ->orWhere('users.last_name', 'like', "%{$search}%")
+                        ->orWhere('users.position', 'like', "%{$search}%")
+                        ->orWhere('users.email', 'like', "%{$search}%");
                 }
             })
+            ->groupBy('users.id', 'users.prefix', 'users.name', 'users.last_name', 'users.position', 'users.email', 'users.role')
             ->paginate(4);
+
         return view('equipment_registration.equipment-showuser', compact('datauserformanage'));
     }
 
@@ -147,7 +150,7 @@ class UserManagementController extends Controller
         if ($datacheck !== null && $datacheck->user_id != null && $datacheck->equipments_code != null) {
             // หากมีข้อมูล ให้แสดงข้อความแจ้งเตือน
             Alert::error('กรุณาย้ายผู้รับผิดชอบ!!!', 'ก่อนที่จะลบ');
-            return redirect()->route('equipment.homepage');
+            return redirect()->route('equipment.adminhomepage');
         } else {
             // หากไม่มีข้อมูล ให้ทำการลบผู้ใช้งาน
             User::findOrFail($id)->delete(); // ทำการลบผู้ใช้งาน

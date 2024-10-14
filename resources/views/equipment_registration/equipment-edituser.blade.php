@@ -98,16 +98,19 @@
             </div>
 
 
-            <div class="col-span-1">
+            {{-- <div class="col-span-1">
                 <button type="button"
                     onclick="window.location.href='{{ route('UserManagement.destroy', ['id' => $user->id]) }}'"
                     class="lg:w-full md:w-1/2 bg-[#e33a31db] text-white px-4 py-2 font-bold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600">ลบครุภัณฑ์ผู้รับผิดชอบ</button>
-                {{-- <a href="{{ route('UserManagement.destroy', ['id' => $user->id]) }}" data-confirm-delete="true"
-                    class="w-full bg-[#e33a31db] text-white px-4 py-2 font-bold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600">
 
+            </div> --}}
 
+            <div class="col-span-1">
+                <button type="button" data-confirm-delete="true"
+                    data-url="{{ route('UserManagement.destroy', ['id' => $user->id]) }}"
+                    class="lg:w-full md:w-1/2 bg-[#e33a31db] text-white px-4 py-2 font-bold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600">
                     ลบครุภัณฑ์ผู้รับผิดชอบ
-                </a> --}}
+                </button>
             </div>
         </div>
 
@@ -115,10 +118,10 @@
 
 
     <script>
-        document.querySelectorAll('a[data-confirm-delete]').forEach(function(element) {
+        document.querySelectorAll('button[data-confirm-delete]').forEach(function(element) {
             element.addEventListener('click', function(event) {
                 event.preventDefault();
-                var url = this.href;
+                var url = this.getAttribute('data-url');
 
                 Swal.fire({
                     title: 'คุณกำลังจะลบครุภัณฑ์!',
@@ -128,7 +131,7 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'ยืนยันการลบ',
-
+                    cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location.href = url;

@@ -51,7 +51,7 @@
                    oninput="cheakdata()"  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <option value="">เลือกประเภท</option>
 
-                                                         @if (isset($dataTypeequipment))
+                                                           @if (isset($dataTypeequipment))
                 @foreach ($dataTypeequipment as $value)
                     <option value="{{ $value->type_of_equipment_id }}"
                         {{ old('type_of_equipment_id') == $value->type_of_equipment_id ? 'selected' : '' }}>
@@ -368,28 +368,18 @@
 
 
 
+        function convertToThaiYear() {
+            const dateInput = document.getElementById('date_acquired');
+            let selectedDate = new Date(dateInput.value);
 
-        // const assetNumberInput = document.getElementById('asset_number');
-        // const errorMessage = document.getElementById('error-message');
-
-        // // ดักจับเหตุการณ์ input
-        // assetNumberInput.addEventListener('input', function() {
-        //     errorMessage.textContent = ''; // เคลียร์ข้อความผิดพลาดเมื่อมีการป้อนข้อมูล
-        // });
-
-        // // ดักจับเหตุการณ์ blur (เมื่อผู้ใช้คลิกออกจากฟิลด์)
-        // assetNumberInput.addEventListener('blur', function() {
-        //     if (!assetNumberInput.value.trim()) {
-        //         errorMessage.textContent = 'กรุณาป้อนหมายเลขครุภัณฑ์';
-        //     }
-        // });
-
-        // // ดักจับเหตุการณ์ submit ของแบบฟอร์ม
-        // document.querySelector('form').addEventListener('submit', function(event) {
-        //     if (!assetNumberInput.value.trim()) {
-        //         errorMessage.textContent = 'กรุณาป้อนหมายเลขครุภัณฑ์';
-        //         event.preventDefault(); // หยุดการส่งแบบฟอร์ม
-        //     }
-        // });
+            if (!isNaN(selectedDate.getTime())) {
+                // ถ้าผู้ใช้เลือกวันที่แล้ว แปลงปี ค.ศ. เป็น พ.ศ.
+                let thaiYear = selectedDate.getFullYear() + 543;
+                // สร้างรูปแบบวันที่ใหม่เป็น ปีไทย-เดือน-วัน
+                let thaiDate = thaiYear + '-' + ('0' + (selectedDate.getMonth() + 1)).slice(-2) + '-' + ('0' + selectedDate
+                    .getDate()).slice(-2);
+                dateInput.value = thaiDate;
+            }
+        }
     </script>
 </x-guest-layout>

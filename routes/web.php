@@ -9,6 +9,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportPdfController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Usercontrollerimport;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,10 +21,6 @@ use App\Http\Controllers\Usercontrollerimport;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('auth.login');
-});
 
 
 
@@ -88,4 +86,16 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+Route::get('/', function () {
+    if (Auth::check()) {
+        // ถ้าผู้ใช้ล็อกอินอยู่แล้ว ให้ไปที่หน้า dashboard หรือหน้าอื่น ๆ
+        return redirect()->route('dashboardequipment.index'); // เปลี่ยนเส้นทางไปที่หน้า dashboard หรือหน้าที่ต้องการ
+    }
+
+    // ถ้าผู้ใช้ยังไม่ได้ล็อกอิน แสดงหน้า login
+    return view('auth.login');
+});
+
 require __DIR__ . '/auth.php';

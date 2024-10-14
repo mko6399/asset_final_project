@@ -79,7 +79,13 @@
         <h3>ปีงบประมาณ: {{ $year }}</h3>
         <!-- ถ้าไม่มี session จะใช้ค่าปีปัจจุบัน -->
 
-        <h3>{{ $currentDate }}</h3>
+
+        @if ($start_date_th | $end_date_th)
+            <h3> วันที่ {{ $start_date_th }} ถึง วันที่ {{ $end_date_th }}</h3>
+        @else
+            <h3>{{ $currentDate }}</h3>
+        @endif
+
     </div>
 
     <div class="details">

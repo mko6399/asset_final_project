@@ -76,7 +76,7 @@
                         <th class="border-2 border-blue-500 px-4 py-2">นามสกุล</th>
                         <th class="border-2 border-blue-500 px-4 py-2">ตำแหน่ง</th>
                         <th class="border-2 border-blue-500 px-4 py-2">อีเมล์</th>
-
+                        <th class="border-2 border-blue-500 px-4 py-2">จำนวนครุภัณฑ์ที่รับผิดชอบ</th>
                         <th class="border-2 border-blue-500 px-4 py-2">แก้ไข</th>
                     </tr>
                 </thead>
@@ -89,6 +89,7 @@
                             <td class="border-2 border-blue-500 px-4 py-2">{{ $user->position }}</td>
                             <td class="border-2 border-blue-500 px-4 py-2">{{ $user->email }}</td>
 
+                            <td class="border-2 border-blue-500 px-4 py-2">{{ $user->equipment_count }}</td>
                             <td class="border-2 border-blue-500 px-4 py-2 text-center">
                                 <a href="{{ route('UserManagement.edit', ['id' => $user->id]) }}"
                                     class="text-blue-500 hover:text-blue-700">

@@ -15,7 +15,6 @@
                         'นาย' => 'นาย',
                         'นาง' => 'นาง',
                         'นางสาว' => 'นางสาว',
-                        'อื่นๆ' => 'อื่นๆ',
                     ]"
                         x-on:change="selected = $event.target.value"
                         x-bind:class="{ 'bg-blue-400': selected !== 'bg-red-300' }" required autofocus />
@@ -45,9 +44,12 @@
                 <!-- Responsible ID -->
                 <div class="mt-4 flex items-center">
                     <x-input-label for="id" :value="__('รหัสผู้รับผิดชอบ')" />
+
                     <x-text-input id="id" class="block mt-1 w-full" type="text" name="id"
                         :value="old('id')" />
+                    <span class="text-sm text-red-500 mt-1">*ถ้าไม่มีรหัส ไม่ต้องกรอก</span>
                     <x-input-error :messages="$errors->get('id')" class="mt-2" />
+
                 </div>
 
                 <!-- Position -->

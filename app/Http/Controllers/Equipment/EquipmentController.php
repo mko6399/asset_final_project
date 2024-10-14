@@ -45,23 +45,39 @@ class EquipmentController extends Controller
         //     // สร้าง asset_number ใหม่ที่มีความยาว 28 ตัวอักษร
         //     $assetNumber = strtoupper(bin2hex(random_bytes(14))); // ใช้ 14 bytes เพื่อให้ได้ 28 ตัวอักษร (hex)
         // }
-        $request->validate([
-            'status' => 'required',
-            'type_of_equipment_id' => 'required',
-            'location_site_code' => 'required',
-            'location_use_name' => 'nullable|string|max:255',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Optional: Validate the image
-            'asset_number' => 'nullable|string|max:31',
-            'date_acquired' => 'required|date',
-            'item_description_name' => 'required|string|max:255',
-            'vendor' => 'required|string|max:255',
-            'acquisition_method' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'additional' => 'nullable|string|max:255',
-            'reference_number' => 'nullable|string|max:255',
-            'budget' => 'required|string|max:255',
-            'serial_number' => 'nullable|string|max:255',
-        ]);
+        try {
+            $request->validate([
+                'status' => 'required',
+                'type_of_equipment_id' => 'required',
+                'location_site_code' => 'required',
+                'location_use_name' => 'nullable|string|max:255',
+                'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'asset_number' => 'nullable|string|max:31|unique:equipments,asset_number', // ตรวจสอบไม่ให้ซ้ำ
+                'date_acquired' => 'required|date',
+                'item_description_name' => 'required|string|max:255',
+                'vendor' => 'required|string|max:255',
+                'acquisition_method' => 'required|string|max:255',
+                'price' => 'required|numeric',
+                'additional' => 'nullable|string|max:255',
+                'reference_number' => 'nullable|string|max:255',
+                'budget' => 'required|string|max:255',
+                'serial_number' => 'nullable|string|max:255',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // ตรวจสอบหาก asset_number ซ้ำ
+            if ($e->validator->errors()->has('asset_number')) {
+                Alert::error('เลขครุภัณฑ์ซ้ำกัน!!!', 'กรอกเลขใหม่');
+            }
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        }
+
+
+        $dateAcquired = $request->input('date_acquired');
+        $dateParts = explode('-', $dateAcquired); // แยกวันที่เป็นส่วนๆ (ปี-เดือน-วัน)
+        if (count($dateParts) === 3) {
+            $year = $dateParts[0] + 543; // เพิ่ม 543 ให้กับปี
+            $dateAcquiredThai = $year . '-' . $dateParts[1] . '-' . $dateParts[2]; // ประกอบวันที่ใหม่เป็น ปีไทย-เดือน-วัน
+        }
 
         if ($request->hasFile('image_path')) {
 
@@ -77,7 +93,7 @@ class EquipmentController extends Controller
             'type_of_equipment_id' => $request->input('type_of_equipment_id'),
             'location_site_code' => $request->input('location_site_code'),
             'asset_number' => $assetNumber,
-            'date_acquired' => $request->input('date_acquired'),
+            'date_acquired' => $dateAcquiredThai,
             'item_description_name' => $request->input('item_description_name'),
             'vendor' => $request->input('vendor'),
             'acquisition_method' => $request->input('acquisition_method'),

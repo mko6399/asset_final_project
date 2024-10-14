@@ -27,8 +27,7 @@
         .posi {
             display: flex;
             text-align: center;
-
-
+            margin-top: 3%
         }
 
         .setposi {
